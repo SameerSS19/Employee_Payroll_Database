@@ -1,1 +1,189 @@
 ****Welcome To Employee Payroll Database****
+
+UC1: Ability to create a payroll service database.
+Solution:
+	//To Create a Database using 'CREATE' command like:payroll_service.
+ 	mysql> CREATE DATABASE payroll_service;	
+	Query OK, 1 row affected (0.17 sec)
+
+	//To Show the Database using 'show; command.
+	mysql> show databases;
+	+--------------------+
+	| Database           |
+	+--------------------+
+	| information_schema |
+	| mysql              |
+	| payroll_service    |
+	| performance_schema |
+	| sakila             |
+	| sys                |
+	| world              |
+	+--------------------+
+	7 rows in set (0.00 sec)
+
+	//You want to choose a database using 'USE' command like:payroll_service.
+	mysql> USE payroll_service;
+	Database changed
+
+	//Select a particular database using 'SELECT' command.
+	mysql> SELECT DATABASE();
+	+-----------------+
+	| DATABASE()      |
+	+-----------------+
+	| payroll_service |
+	+-----------------+
+	1 row in set (0.00 sec)
+
+
+UC2:Create a employee payroll table in the payroll service database.
+Solution:
+	//To Create a Table using 'CREATE TABLE' command in particular database like employee_payroll.
+	mysql> CREATE TABLE employee_payroll
+    	-> (
+    	-> 	id      INT unsigned NOT NULL AUTO_INCREMENT,  #Unique ID for the record
+    	-> 	name     VARCHAR(150) NOT NULL,                #Names of Employee
+    	-> 	salary   Double NOT NULL,                      #Employee Salary
+    	->	start    DATE NOT NULL,                        #Employee Start Date
+    	-> 	PRIMARY KEY (id)                               #Make id primary key
+    	-> );
+	Query OK, 0 rows affected (1.79 sec)
+	
+	//Show a table in a display using 'DESCRIBE'command.
+	mysql> DESCRIBE employee_payroll;
+	+--------+--------------+------+-----+---------+----------------+
+	| Field  | Type         | Null | Key | Default | Extra          |
+	+--------+--------------+------+-----+---------+----------------+
+	| id     | int unsigned | NO   | PRI | NULL    | auto_increment |
+	| name   | varchar(150) | NO   |     | NULL    |                |
+	| salary | double       | NO   |     | NULL    |                |
+	| start  | date         | NO   |     | NULL    |                |
+	+--------+--------------+------+-----+---------+----------------+
+	4 rows in set (0.10 sec)
+
+
+UC3 Create employee payroll data in the payroll service database.
+Solution:
+	//Insert a data in a particular database using 'INSERT'command.
+	mysql> INSERT INTO employee_payroll (name,salary,start) VALUES
+   	 -> ('Bill', 1000000.00, '2019-01-03'),
+   	 -> ('Terise', 2000000.00, '2017-11-13'),
+    	 -> ('Charlie', 3000000.00, '2020-05-21');
+	Query OK, 3 rows affected (0.12 sec)
+	Records: 3  Duplicates: 0  Warnings: 0
+
+UC4:Retrieve all the employee payroll data that is added to payroll service database.
+Solution:	
+	//Retrieve all the data from the employee_payroll table using 'SELECT' command.
+	mysql> SELECT * FROM employee_payroll;
+	+----+---------+---------+------------+
+	| id | name    | salary  | start      |
+	+----+---------+---------+------------+
+	|  1 | Bill    | 1000000 | 2019-01-03 |
+	|  2 | Terise  | 2000000 | 2017-11-13 |
+	|  3 | Charlie | 3000000 | 2020-05-21 |
+	+----+---------+---------+------------+
+	3 rows in set (0.05 sec)
+
+UC5:Retrieve salary data for a particular employee as well as all employees who have joined in a particular data range.
+Solution:
+	//View the particular salary given a name like Bill:10000.
+	mysql> SELECT salary FROM employee_payroll where name  = 'Bill';
+	+---------+
+	| salary  |
+	+---------+
+	| 1000000 |
+	+---------+
+	1 row in set (0.00 sec)
+	
+	//Using condition start salary using BETWEEN CAST AND DATE (NOW()). 
+	mysql> SELECT * FROM employee_payroll
+    	-> WHERE start BETWEEN CAST('2019-01-01' AS DATE) AND DATE(NOW());
+	+----+---------+---------+------------+
+	| id | name    | salary  | start      |
+	+----+---------+---------+------------+
+	|  1 | Bill    | 1000000 | 2019-01-03 |
+	|  3 | Charlie | 3000000 | 2020-05-21 |
+	+----+---------+---------+------------+
+	2 rows in set (0.04 sec)
+
+
+UC6:Add Gender to Employee Payroll Table and Update the Rows to reflect the correct Employee Gender.
+Solution:
+	//Add the gender column in employee_payroll using ALTER command like delete,add,etc 
+	mysql> ALTER TABLE employee_payroll ADD gender CHAR(1) AFTER names;
+	Query OK, 0 rows affected (2.09 sec)
+	Records: 0  Duplicates: 0  Warnings: 0
+
+	mysql> describe employee_payroll;
+	+--------+--------------+------+-----+---------+----------------+
+	| Field  | Type         | Null | Key | Default | Extra          |
+	+--------+--------------+------+-----+---------+----------------+
+	| id     | int unsigned | NO   | PRI | NULL    | auto_increment |
+	| names  | varchar(150) | NO   |     | NULL    |                |
+	| gender | char(1)      | YES  |     | NULL    |                |
+	| salary | double       | NO   |     | NULL    |                |
+	| start  | date         | NO   |     | NULL    |                |
+	+--------+--------------+------+-----+---------+----------------+
+	5 rows in set (0.04 sec)
+	
+	//Data stored in table using 'update' command.
+	mysql> update employee_payroll set gender = 'F' where names = 'Terise';
+	Query OK, 1 row affected (0.11 sec)
+	Rows matched: 1  Changed: 1  Warnings: 0
+	
+	mysql> SELECT * FROM employee_payroll;
+	+----+---------+--------+---------+------------+
+	| id | names   | gender | salary  | start      |
+	+----+---------+--------+---------+------------+
+	|  1 | Bill    | NULL   | 1000000 | 2019-01-03 |
+	|  2 | Terise  | F      | 2000000 | 2017-11-13 |
+	|  3 | Charlie | NULL   | 3000000 | 2020-05-21 |
+	+----+---------+--------+---------+------------+
+	3 rows in set (0.00 sec)
+
+	//Data stored in table using 'update' command.
+	mysql> update employee_payroll set gender = 'M' where names = 'Bill' or names = 'Charlie';
+	Query OK, 2 rows affected (0.09 sec)
+	Rows matched: 2  Changed: 2  Warnings: 0
+	
+	//View the Database.
+	mysql> SELECT * FROM employee_payroll;
+	+----+---------+--------+---------+------------+
+	| id | name    | gender | salary  | start      |
+	+----+---------+--------+---------+------------+
+	|  1 | Bill    | M      | 1000000 | 2019-01-03 |
+	|  2 | Terise  | F      | 2000000 | 2017-11-13 |
+	|  3 | Charlie | M      | 3000000 | 2020-05-21 |
+	+----+---------+--------+---------+------------+
+	3 rows in set (0.00 sec)
+
+UC7:Find sum, average, min, max and number of male and female employees.
+Solution:
+	//Find  Average salary according to a gender (like M )using AVG() command; 
+	mysql> SELECT AVG(salary) FROM employee_payroll WHERE gender = 'M' GROUP BY gender;
+	+-------------+
+	| AVG(salary) |
+	+-------------+
+	|     2000000 |
+	+-------------+
+	1 row in set (0.01 sec)
+	
+	//Count the no of fields (like name) using COUNT() command.
+	mysql> SELECT gender, COUNT(name) FROM employee_payroll GROUP BY gender;
+	+--------+--------------+
+	| gender | COUNT(name) |
+	+--------+--------------+
+	| M      |            2 |
+	| F      |            1 |
+	+--------+--------------+
+	2 rows in set (0.03 sec)
+
+	//Find the Sum of the salary accourding to a field (like gender) using SUM() command.
+	mysql> SELECT gender, SUM(salary) FROM employee_payroll GROUP BY gender;
+	+--------+-------------+
+	| gender | SUM(salary) |
+	+--------+-------------+
+	| M      |     4000000 |
+	| F      |     2500000 |
+	+--------+-------------+
+	2 rows in set (0.00 sec)
