@@ -1,1 +1,34 @@
 ****Welcome To Employee Payroll Database****
+
+UC1: Ability to create a payroll service database.
+Solution:
+	//To Create a Database using 'CREATE' command like:payroll_service.
+ 	mysql> CREATE DATABASE payroll_service;	
+	Query OK, 1 row affected (0.17 sec)
+
+	//To Show the Database using 'show; command.
+	mysql> show databases;
+	+--------------------+
+	| Database           |
+	+--------------------+
+	| information_schema |
+	| mysql              |
+	| payroll_service    |
+	| performance_schema |
+	| sakila             |
+	| sys                |
+	| world              |
+	+--------------------+
+	7 rows in set (0.00 sec)
+	//You want to choose a database using 'USE' command like:payroll_service.
+	mysql> USE payroll_service;
+	Database changed
+
+	//Select a particular database using 'SELECT' command.
+	mysql> SELECT DATABASE();
+	+-----------------+
+	| DATABASE()      |
+	+-----------------+
+	| payroll_service |
+	+-----------------+
+	1 row in set (0.00 sec)
