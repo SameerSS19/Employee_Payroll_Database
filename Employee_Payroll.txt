@@ -226,3 +226,53 @@ Solution:
 	| start        | date         | NO   |     | NULL    |                |
 	+--------------+--------------+------+-----+---------+----------------+
 	8 rows in set (0.08 sec)
+
+UC9:Ability to extend employee_payroll table to have Basic Pay, Deductions, Taxable Pay, Income Tax, Net Pay.
+Solution:
+	////Add a column in a table like:basic_pay
+	mysql> ALTER TABLE employee_payroll ADD basic_pay Double NOT NULL AFTER start;
+	Query OK, 0 rows affected (0.47 sec)
+	Records: 0  Duplicates: 0  Warnings: 0
+
+	//Add a column in a table like:deduction
+	mysql> ALTER TABLE employee_payroll ADD deduction Double NOT NULL AFTER basic_pay;
+	Query OK, 0 rows affected (0.79 sec)
+	Records: 0  Duplicates: 0  Warnings: 0
+
+	//Add a column in a table like:texable_pay
+	mysql> ALTER TABLE employee_payroll ADD texable_pay Double NOT NULL AFTER deduction;
+	Query OK, 0 rows affected (0.53 sec)
+	Records: 0  Duplicates: 0  Warnings: 0
+	
+	//Add a column in a table like:income_tax
+	mysql> ALTER TABLE employee_payroll ADD income_tax Double NOT NULL AFTER texable_pay;
+	Query OK, 0 rows affected (0.37 sec)
+	Records: 0  Duplicates: 0  Warnings: 0
+
+	//Add a column in a table like:net_pay
+	mysql> ALTER TABLE employee_payroll ADD net_pay Double NOT NULL AFTER income_tax;
+	Query OK, 0 rows affected (0.46 sec)
+	Records: 0  Duplicates: 0  Warnings: 0
+	
+	//View a table in a display.
+	mysql> DESCRIBE employee_payroll;
+	+--------------+--------------+------+-----+---------+----------------+
+	| Field        | Type         | Null | Key | Default | Extra          |
+	+--------------+--------------+------+-----+---------+----------------+
+	| id           | int unsigned | NO   | PRI | NULL    | auto_increment |
+	| names        | varchar(150) | NO   |     | NULL    |                |
+	| phone_number | varchar(13)  | YES  |     | NULL    |                |
+	| address      | varchar(150) | YES  |     | TBD     |                |
+	| department   | varchar(20)  | NO   |     | NULL    |                |
+	| gender       | char(1)      | YES  |     | NULL    |                |
+	| salary       | double       | NO   |     | NULL    |                |
+	| start        | date         | NO   |     | NULL    |                |
+	| basic_pay    | double       | NO   |     | NULL    |                |
+	| deduction    | double       | NO   |     | NULL    |                |
+	| texable_pay  | double       | NO   |     | NULL    |                |
+	| income_tax   | double       | NO   |     | NULL    |                |
+	| net_pay      | double       | NO   |     | NULL    |                |
+	+--------------+--------------+------+-----+---------+----------------+
+	13 rows in set (0.01 sec)
+
+
