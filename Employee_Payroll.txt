@@ -276,3 +276,66 @@ Solution:
 	13 rows in set (0.01 sec)
 
 
+UC10:Ability to make Terissa as part of Sales and Marketing Department.
+Solution:
+
+	//Delete a column ina a table using 'DROP' command like salary.
+	mysql> ALTER TABLE employee_payroll DROP salary;
+	Query OK, 0 rows affected (2.03 sec)
+	Records: 0  Duplicates: 0  Warnings: 0
+	
+	//View a table in a display.
+	mysql> DESCRIBE employee_payroll;
+	+--------------+--------------+------+-----+---------+----------------+
+	| Field        | Type         | Null | Key | Default | Extra          |
+	+--------------+--------------+------+-----+---------+----------------+
+	| id           | int unsigned | NO   | PRI | NULL    | auto_increment |
+	| names        | varchar(150) | NO   |     | NULL    |                |
+	| phone_number | varchar(13)  | YES  |     | NULL    |                |
+	| address      | varchar(150) | YES  |     | TBD     |                |
+	| department   | varchar(20)  | NO   |     | NULL    |                |
+	| gender       | char(1)      | YES  |     | NULL    |                |
+	| start        | date         | NO   |     | NULL    |                |
+	| basic_pay    | double       | NO   |     | NULL    |                |
+	| deduction    | double       | NO   |     | NULL    |                |
+	| texable_pay  | double       | NO   |     | NULL    |                |
+	| income_tax   | double       | NO   |     | NULL    |                |
+	| net_pay      | double       | NO   |     | NULL    |                |
+	+--------------+--------------+------+-----+---------+----------------+
+	12 rows in set (0.03 sec)
+
+	//Insert a data into a table.
+	mysql> INSERT INTO employee_payroll
+    	-> (names, department, gender,start, basic_pay, deduction, texable_pay, income_tax, net_pay) VALUES
+    	-> ('Terise' , 'Marketting','F','2018-01-02',300000.00,100000.00,200000.00,500000.00,1000000.00);
+	Query OK, 1 row affected (0.12 sec)
+
+	//View the Database.	
+	mysql> SELECT * FROM employee_payroll;
+	+----+---------+--------------+---------+------------+--------+------------+-----------+-----------+-------------+------------+---------+
+	| id | names   | phone_number | address | department | gender | start      | basic_pay | deduction | texable_pay | income_tax | net_pay |
+	+----+---------+--------------+---------+------------+--------+------------+-----------+-----------+-------------+------------+---------+
+	|  1 | Bill    | NULL         | NULL    |            | M      | 2019-01-03 |         0 |         0 |           0 |          0 |       0 |
+	|  2 | Terise  | NULL         | NULL    |            | F      | 2017-11-13 |         0 |         0 |           0 |          0 |       0 |
+	|  3 | Charlie | NULL         | NULL    |            | M      | 2020-05-21 |         0 |         0 |           0 |          0 |       0 |
+	|  4 | Terise  | NULL         | TBD     | Marketting | F      | 2018-01-02 |    300000 |    100000 |      200000 |     500000 | 1000000 |
+	+----+---------+--------------+---------+------------+--------+------------+-----------+-----------+-------------+------------+---------+
+	4 rows in set (0.00 sec)
+
+	//Adding a data in a particular field,same names but different id.
+	mysql> UPDATE employee_payroll SET department="Sales" WHERE id=2;
+	Query OK, 1 row affected (0.11 sec)
+	Rows matched: 1  Changed: 1  Warnings: 0
+
+	//View the Database.
+	mysql> SELECT * FROM employee_payroll;
+	+----+---------+--------------+---------+------------+--------+------------+-----------+-----------+-------------+------------+---------+
+	| id | names   | phone_number | address | department | gender | start      | basic_pay | deduction | texable_pay | income_tax | net_pay |
+	+----+---------+--------------+---------+------------+--------+------------+-----------+-----------+-------------+------------+---------+
+	|  1 | Bill    | NULL         | NULL    |            | M      | 2019-01-03 |         0 |         0 |           0 |          0 |       0 |
+	|  2 | Terise  | NULL         | NULL    | Sales      | F      | 2017-11-13 |         0 |         0 |           0 |          0 |       0 |
+	|  3 | Charlie | NULL         | NULL    |            | M      | 2020-05-21 |         0 |         0 |           0 |          0 |       0 |
+	|  4 | Terise  | NULL         | TBD     | Marketting | F      | 2018-01-02 |    300000 |    100000 |      200000 |     500000 | 1000000 |
+	+----+---------+--------------+---------+------------+--------+------------+-----------+-----------+-------------+------------+---------+
+	4 rows in set (0.03 sec)
+
